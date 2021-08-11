@@ -1,0 +1,12 @@
+FROM python:3.9.6-slim
+
+ADD requirements.txt /tmp
+RUN pip install -r /tmp/requirements.txt
+
+WORKDIR /app
+RUN chown nobody:nogroup /app
+
+COPY --chown=nobody:nogroup . ./
+USER nobody
+
+ENTRYPOINT python bot.py ${BOT_TOKEN}
