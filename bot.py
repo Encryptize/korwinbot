@@ -21,6 +21,7 @@ logger = logging.getLogger(__name__)
 
 @dp.inline_handler()
 async def inline_handler(update: InlineQuery):
+    logger.info(f"User {get_sender_name(update.from_user)} issued inline")
     korwin_response = korwin.korwin_random()
 
     item = InlineQueryResultArticle(
@@ -31,9 +32,20 @@ async def inline_handler(update: InlineQuery):
 
     await bot.answer_inline_query(update.id, results=[item], cache_time=1)
 
-@dp.message_handler(commands=['korwin'])
+@dp.message_handler(commands=['korwin', 'start'])
 async def command_handler(update: types.Message):
+    logger.info(f"User {get_sender_name(update.from_user)} issued command {update.text}")
     await update.answer(korwin.korwin_random())
+
+def get_sender_name(sender):
+    if sender.username:
+        return f"@{sender.username} (id: {sender.id})"
+    elif sender.first_name and sender.last_name:
+        return f"{sender.first_name} {sender.last_name} (id: {sender.id})"
+    elif sender.first_name:
+        return f"{sender.first_name} (id: {sender.id})"
+    else:
+        return f"id: {sender.id}"
 
 if __name__ == '__main__':
     executor.start_polling(dp)
