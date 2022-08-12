@@ -1,4 +1,4 @@
-FROM python:3.9.6-slim
+FROM python:3.10-alpine
 
 ADD requirements.txt /tmp
 RUN pip install -r /tmp/requirements.txt

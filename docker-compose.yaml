@@ -1,8 +1,8 @@
 version: '3.5'
 
 services:
-  telegram-korwin:
+  bot:
+    build: https://github.com/Encryptize/korwinbot.git
+    restart: unless-stopped
     environment: 
-      BOT_TOKEN: 
-
-    build: .
+      BOT_TOKEN: 000000:xxxxxxxxxxxxxxxxxxxx
